@@ -1,0 +1,135 @@
+@font-face {
+  font-family: "Besley";
+  src: url("fonts/besley-400.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Besley";
+  src: url("fonts/besley-600.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: "Besley";
+  src: url("fonts/besley-italic-400.ttf") format("truetype");
+  font-style: italic;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Chivo Mono";
+  src: url("fonts/chivo-mono-500.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 500;
+}
+
+.baitblocker-mark {
+  position: relative !important;
+  text-decoration-line: underline !important;
+  text-decoration-color: var(--baitblocker-accent, #dd3c3c) !important;
+  text-decoration-thickness: 1.5px !important;
+  text-underline-offset: 2px !important;
+  text-decoration-skip-ink: none !important;
+}
+
+.baitblocker-mark.baitblocker-inline {
+  background-image: linear-gradient(transparent 74%, var(--baitblocker-wash, #dd3c3c29) 74%) !important;
+  background-repeat: no-repeat !important;
+  box-decoration-break: clone !important;
+  -webkit-box-decoration-break: clone !important;
+}
+
+.baitblocker-mark[data-baitblocker-kind="influence"] { text-decoration-style: dotted !important; }
+.baitblocker-mark[data-baitblocker-kind="engagement"] { text-decoration-style: dashed !important; }
+.baitblocker-mark[data-baitblocker-kind="framing"] { text-decoration-style: wavy !important; }
+
+.baitblocker-new { animation: baitblocker-blink .68s ease-in-out 3; }
+.baitblocker-focus { animation: baitblocker-focus .52s ease-in-out 3 !important; }
+
+@keyframes baitblocker-blink {
+  0%, 100% { filter: none; }
+  50% {
+    filter: drop-shadow(0 0 7px var(--baitblocker-accent, #dd3c3c));
+    text-shadow: 0 0 8px var(--baitblocker-accent, #dd3c3c);
+  }
+}
+
+@keyframes baitblocker-focus {
+  0%, 100% { filter: none; }
+  50% {
+    filter: drop-shadow(0 0 10px var(--baitblocker-accent, #dd3c3c));
+    text-shadow: 0 0 10px var(--baitblocker-accent, #dd3c3c);
+  }
+}
+
+#baitblocker-tooltip {
+  all: initial;
+  box-sizing: border-box;
+  position: fixed !important;
+  z-index: 2147483647 !important;
+  width: min(310px, calc(100vw - 24px)) !important;
+  transform: translateY(-100%) !important;
+  padding: 15px 18px 16px 31px !important;
+  border: 1px solid #cfcabc !important;
+  border-radius: 10px !important;
+  background: #f5f4ef !important;
+  color: #1d1a22 !important;
+  box-shadow: 0 8px 24px rgb(29 26 34 / .16) !important;
+  font: 400 13px/1.48 "Besley", Georgia, serif !important;
+  pointer-events: auto !important;
+}
+
+#baitblocker-tooltip[data-position="below"] { transform: none !important; }
+#baitblocker-tooltip[hidden] { display: none !important; }
+#baitblocker-tooltip .baitblocker-tell {
+  position: absolute !important;
+  top: 16px !important;
+  left: 15px !important;
+  display: block !important;
+  width: 6px !important;
+  height: 6px !important;
+  border-radius: 50% !important;
+  background: var(--baitblocker-accent, #dd3c3c) !important;
+}
+#baitblocker-tooltip .baitblocker-tell::after {
+  content: "" !important;
+  position: absolute !important;
+  top: 6px !important;
+  left: 2.5px !important;
+  width: 1px !important;
+  height: 31px !important;
+  background: var(--baitblocker-accent, #dd3c3c) !important;
+}
+#baitblocker-tooltip small,
+#baitblocker-tooltip b,
+#baitblocker-tooltip span,
+#baitblocker-tooltip q { display: block !important; }
+#baitblocker-tooltip small {
+  margin: 0 0 3px !important;
+  color: var(--baitblocker-accent, #dd3c3c) !important;
+  font: 500 9px/1.2 "Chivo Mono", monospace !important;
+  letter-spacing: .12em !important;
+  text-transform: uppercase !important;
+}
+#baitblocker-tooltip b {
+  margin: 0 0 5px !important;
+  color: #1d1a22 !important;
+  font: 600 16px/1.18 "Besley", Georgia, serif !important;
+}
+#baitblocker-tooltip span { color: #4a4453 !important; font: inherit !important; }
+#baitblocker-tooltip q {
+  margin: 10px 0 0 !important;
+  padding: 7px 0 0 !important;
+  border-top: 1px solid #cfcabc !important;
+  color: #4a4453 !important;
+  font: italic 400 11px/1.35 "Besley", Georgia, serif !important;
+}
+#baitblocker-tooltip q::before { content: "Triggered by “" !important; }
+#baitblocker-tooltip q::after { content: "”" !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  .baitblocker-new, .baitblocker-focus { animation: none !important; }
+}

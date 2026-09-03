@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>BaitBlocker</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header class="mast">
+    <span class="wordmark">BAIT<em>BLOCKER</em></span>
+    <span class="machine">BB://SCAN</span>
+  </header>
+
+  <section class="readout" aria-live="polite">
+    <p class="kicker">THIS PAGE</p>
+    <div class="count-line">
+      <strong id="count">–</strong>
+      <span>TELLS<br>FOUND</span>
+    </div>
+    <p id="summary">Reading the page you are reading…</p>
+    <div class="stepper" aria-label="Move through detected tells">
+      <button id="previous" aria-label="Previous tell">← PREVIOUS</button>
+      <span id="position">— / —</span>
+      <button id="next" aria-label="Next tell">NEXT →</button>
+    </div>
+  </section>
+
+  <ol id="list" aria-label="Detected tells"></ol>
+
+  <div class="actions">
+    <button id="controls" class="control-link">TUNE THE SCAN <span>↗</span></button>
+  </div>
+  <footer>
+    <p>The hook is the message.</p>
+    <div class="scan-strip" aria-hidden="true">
+      <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+      <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+      <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+      <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+    </div>
+  </footer>
+  <script src="popup.js"></script>
+</body>
+</html>

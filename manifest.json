@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "BaitBlocker",
+  "short_name": "BaitBlocker",
+  "version": "0.4.0",
+  "description": "Marks the places where online writing is working on you rather than informing you.",
+  "permissions": ["activeTab", "storage", "tabs", "webNavigation"],
+  "action": {
+    "default_title": "BaitBlocker",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/baitblocker-16.png",
+      "32": "icons/baitblocker-32.png"
+    }
+  },
+  "icons": {
+    "16": "icons/baitblocker-16.png",
+    "32": "icons/baitblocker-32.png",
+    "48": "icons/baitblocker-48.png",
+    "128": "icons/baitblocker-128.png"
+  },
+  "background": { "service_worker": "background.js" },
+  "options_page": "control.html",
+  "content_scripts": [{ "matches": ["<all_urls>"], "js": ["config.js", "content.js"], "css": ["overlay.css"], "run_at": "document_idle", "all_frames": true, "match_about_blank": true }],
+  "web_accessible_resources": [{
+    "resources": ["fonts/*.ttf"],
+    "matches": ["<all_urls>"]
+  }]
+}

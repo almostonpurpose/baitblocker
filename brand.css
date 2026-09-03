@@ -1,0 +1,69 @@
+@font-face {
+  font-family: "Righteous";
+  src: url("fonts/righteous-400.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Besley";
+  src: url("fonts/besley-400.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Besley";
+  src: url("fonts/besley-600.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Besley";
+  src: url("fonts/besley-italic-400.ttf") format("truetype");
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Chivo Mono";
+  src: url("fonts/chivo-mono-400.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Chivo Mono";
+  src: url("fonts/chivo-mono-500.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Chivo Mono";
+  src: url("fonts/chivo-mono-700.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+:root {
+  --ground: #f5f4ef;
+  --ground-2: #e9e6dc;
+  --ink: #1d1a22;
+  --ink-2: #4a4453;
+  --ink-3: #8b8497;
+  --line: #cfcabc;
+  --accent-lead: #dd3c3c;
+  --accent-companion: #2f7d76;
+  --font-display: "Righteous", "Arial Rounded MT Bold", sans-serif;
+  --font-text: "Besley", Georgia, serif;
+  --font-mono: "Chivo Mono", "SFMono-Regular", Consolas, monospace;
+}

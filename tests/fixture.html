@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>BaitBlocker fixture</title>
+  <link rel="stylesheet" href="../overlay.css">
+  <style>
+    body { margin: 50px; background: #faf7f0; color: #17201f; font: 18px/1.5 Georgia, serif; }
+    main { max-width: 700px; margin: auto; }
+    section { margin: 35px 0; padding: 20px; background: white; }
+    .timer { font: 700 28px monospace; }
+    #dark { background: #10253d; color: white; }
+    #red-surface { background: #c64b4b; color: white; }
+    #framing { background: #ffe4a8; }
+  </style>
+</head>
+<body>
+  <main>
+    <section><p id="urgency">Only 3 left — selling fast.</p></section>
+    <section id="booking"><div class="timer"><span>09</span>:<span>42</span></div><p>Your tickets are held while you complete your booking.</p></section>
+    <section id="dark"><p id="dark-urgency">This limited-time offer ends tonight.</p></section>
+    <section id="red-surface"><p id="red-urgency">Only 2 remaining.</p></section>
+    <section id="framing"><p id="framing-copy">A shocking result clearly shows the policy has failed.</p></section>
+    <section id="dynamic"></section>
+    <section id="shadow-host"></section>
+  </main>
+  <script>
+    window.__baitBlockerMessages = [];
+    window.chrome = {
+      storage: { sync: { get: (defaults, callback) => callback(defaults) } },
+      runtime: {
+        sendMessage: message => window.__baitBlockerMessages.push(message),
+        onMessage: { addListener: listener => { window.__baitBlockerListener = listener; } }
+      }
+    };
+
+    const shadow = document.querySelector('#shadow-host').attachShadow({ mode: 'open' });
+    shadow.innerHTML = '<p id="shadow-bait">No one is talking about this.</p>';
+
+    setTimeout(() => {
+      document.querySelector('#dynamic').innerHTML = '<p id="late-bait">Wait till the end.</p>';
+    }, 250);
+
+    setTimeout(() => {
+      const urgency = document.querySelector('#urgency');
+      urgency.className = 'site-rerendered';
+      urgency.removeAttribute('data-baitblocker-id');
+      urgency.removeAttribute('data-baitblocker-kind');
+      urgency.style.cssText = '';
+    }, 420);
+
+    setTimeout(() => {
+      const published = [...window.__baitBlockerMessages].reverse().find(message => message.type === 'BAITBLOCKER_COUNT');
+      window.__oldLateFinding = published?.tactics.find(finding => finding.trigger.toLowerCase().includes('wait till the end'));
+    }, 570);
+
+    setTimeout(() => {
+      const old = document.querySelector('#late-bait');
+      const replacement = old.cloneNode(true);
+      replacement.id = 'late-bait-replacement';
+      old.replaceWith(replacement);
+    }, 700);
+  </script>
+  <script src="../config.js"></script>
+  <script src="../content.js"></script>
+</body>
+</html>

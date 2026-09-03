@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>BaitBlocker — Tune the scan</title>
+  <link rel="stylesheet" href="control.css">
+</head>
+<body>
+  <nav class="mast">
+    <span class="wordmark">BAIT<em>BLOCKER</em></span>
+    <span class="machine">BB://CONTROL · v0.4</span>
+  </nav>
+
+  <main>
+    <header class="hero">
+      <div class="intro">
+        <p class="eyebrow">YOUR ATTENTION, VISIBLE</p>
+        <h1>Choose what<br>you want to <em>notice.</em></h1>
+        <p class="deck">BaitBlocker names a mechanism. It does not make the verdict for you.</p>
+        <label class="master">
+          <span><b>Annotations active</b><small>Mark the page as you read</small></span>
+          <input id="enabled" type="checkbox">
+          <i aria-hidden="true"></i>
+        </label>
+      </div>
+
+      <aside class="specimen">
+        <span class="machine">LIVE SPECIMEN · PRESSURE</span>
+        <blockquote>“Only <mark>3 left</mark>. Complete your booking before the timer runs out.”</blockquote>
+        <div class="tell">
+          <i></i><u></u><b>scarcity pressure</b>
+        </div>
+      </aside>
+    </header>
+
+    <section>
+      <div class="section-head">
+        <p><span>01</span> PAGE LENSES</p>
+        <span>WHAT GETS MARKED</span>
+      </div>
+      <div class="lenses">
+        <label class="lens pressure">
+          <span class="lens-no">01</span>
+          <span class="lens-copy"><b>Pressure</b><small>Urgency, defaults, hidden commitments</small></span>
+          <input id="pressure" type="checkbox"><i aria-hidden="true"></i>
+        </label>
+        <label class="lens influence">
+          <span class="lens-no">02</span>
+          <span class="lens-copy"><b>Influence</b><small>Social proof, authority, identity cues</small></span>
+          <input id="influence" type="checkbox"><i aria-hidden="true"></i>
+        </label>
+        <label class="lens engagement">
+          <span class="lens-no">03</span>
+          <span class="lens-copy"><b>Engagement bait</b><small>Clickbait, search bait, reaction prompts</small></span>
+          <input id="engagement" type="checkbox"><i aria-hidden="true"></i>
+        </label>
+        <label class="lens framing">
+          <span class="lens-no">04</span>
+          <span class="lens-copy"><b>Framing</b><small>Loaded language and over-certainty</small></span>
+          <input id="framing" type="checkbox"><i aria-hidden="true"></i>
+        </label>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <p><span>02</span> SENSITIVITY</p>
+        <span id="sensitivity-label">BALANCED</span>
+      </div>
+      <div class="sensitivity">
+        <input id="sensitivity" type="range" min="0" max="2" step="1">
+        <div class="range-labels">
+          <span><b>Strict</b><small>High-confidence tells</small></span>
+          <span><b>Balanced</b><small>The useful default</small></span>
+          <span><b>Sensitive</b><small>Subtler language</small></span>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>Changes apply when you reload the page.</p>
+      <button id="reset">RESTORE DEFAULTS</button>
+      <span>THE HOOK IS THE MESSAGE</span>
+    </footer>
+  </main>
+
+  <div class="scan-strip" aria-hidden="true">
+    <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+    <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+    <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+    <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+  </div>
+  <script src="config.js"></script>
+  <script src="control.js"></script>
+</body>
+</html>
