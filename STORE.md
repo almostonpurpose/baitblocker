@@ -107,6 +107,34 @@ required.
 Regenerate the screenshots with `python3 tests/run.py` (under the local server) then
 `python3 store/shots.py`.
 
+## Deploy chain
+
+Already run:
+
+- Repo: `almostonpurpose/baitblocker` (private). Note that `gh auth status` reports the
+  stored account as `rafiqigpt`, but the token belongs to `almostonpurpose` — always name
+  the owner explicitly rather than using the bare form.
+- Pages project: `baitblocker`, production branch `production`.
+- Repo secret `CLOUDFLARE_ACCOUNT_ID` set.
+- Staged to the preview branch, not live.
+- `baitblocker.org` is registered through Cloudflare Registrar and its nameservers already
+  point at Cloudflare, so the zone exists and the custom domain can be attached from the
+  CLI at go-live.
+
+Still needed, all requiring Amr:
+
+1. `gh auth refresh -h github.com -s workflow` — the current token has `gist`, `read:org`,
+   `repo` only, and GitHub rejects the whole push if `.github/workflows/deploy.yml` is in
+   it. The workflow file is written and committed locally, waiting on this.
+2. Create a Cloudflare API token with Pages edit rights and set it:
+   `gh secret set CLOUDFLARE_API_TOKEN --repo almostonpurpose/baitblocker`
+3. Fill in the `[LEGAL NAME]` marker in `site/privacy.html`. It must not go live with the
+   placeholder in it.
+
+Then going live is one command:
+`wrangler pages deploy site --project-name=baitblocker --branch=production`
+followed by `wrangler pages domain add baitblocker.org --project-name=baitblocker`.
+
 ## Pre-submit checklist
 
 - [ ] `./build.sh` clean — it checks the zip against an exact file manifest and fails on

@@ -1,0 +1,23 @@
+name: deploy to cloudflare pages
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      # No build step: site/ is plain HTML, CSS and self-hosted fonts.
+      - name: strip files over the pages 25MiB limit
+        run: find site -type f -size +24M -print -delete
+      - name: deploy to cloudflare pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          # --branch must match the Pages project's production branch ("production"),
+          # otherwise deploys land as previews and the live URL keeps serving an old build.
+          command: pages deploy site --project-name=baitblocker --branch=production --commit-dirty=true
