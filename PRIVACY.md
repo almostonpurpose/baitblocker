@@ -9,5 +9,5 @@ counter in your own browser. The website sets no cookies, runs no analytics, and
 third-party requests. The published policy covers the UK and EU GDPR requirements in full,
 including the server-log processing that hosting unavoidably involves.
 
-The named controller is Dr. Amr Aswad, as the UK and EU GDPR require. Update the version
+The named controller is Amr Aswad, as the UK and EU GDPR require. Update the version
 number and date at the top of `site/privacy.html` whenever the policy changes.
