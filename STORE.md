@@ -154,6 +154,34 @@ followed by `wrangler pages domain add baitblocker.org --project-name=baitblocke
 - [ ] Screenshots regenerated from the current build
 - [ ] Loaded unpacked and checked by hand: badge count, per-site pause, live category toggle
 
+## Other stores
+
+**Firefox (addons.mozilla.org)** — `./build.sh firefox` writes
+`dist/baitblocker-<version>-firefox.zip`. The manifest is derived from the Chrome one by
+`store/firefox_manifest.py`, so the two cannot drift: it swaps the service worker for an
+event page (`background.scripts`, with `config.js` loaded ahead of `background.js`, since
+an event page has no `importScripts`), and adds the `browser_specific_settings.gecko` id
+and a 115.0 minimum for `storage.session`.
+
+One behaviour differs and should be declared rather than discovered: `location.ancestorOrigins`
+is not implemented in Gecko, and it is what keys the per-site pause to the top-level host.
+On Firefox a cross-origin subframe falls back to its own hostname, so pausing a site does
+not silence third-party iframes embedded in it. It degrades; it does not break.
+
+`web-ext lint` reports zero errors and two warnings, both expected: the required
+`data_collection_permissions` key is only understood from Firefox 140, while the minimum
+is 115 for `storage.session`. Older Firefox ignores keys it does not recognise, and AMO
+blocks on errors rather than warnings, so the trade is two warnings against not excluding
+Firefox 115-139.
+
+The same listing copy, screenshots and privacy URL apply. AMO review is usually much
+faster than Chrome's.
+
+**Edge (Partner Center)** — takes the Chrome zip unchanged, no code differences.
+
+**Safari / App Store** — see [`SAFARI.md`](SAFARI.md). The review is quick; the runway to
+it is not, because the extension has to ship inside a native wrapper app.
+
 ## Known review friction
 
 Broad host permissions on a content script that runs in all frames of all sites usually

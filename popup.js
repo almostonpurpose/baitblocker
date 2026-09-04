@@ -23,6 +23,10 @@ let shown = [];
 let lensFilter = null;
 let active = -1;
 
+function setLabel(top, bottom) {
+  countLabel.replaceChildren(top, document.createElement('br'), bottom);
+}
+
 const send = (message) => new Promise(resolve =>
   chrome.runtime.sendMessage(message, response =>
     resolve(chrome.runtime.lastError ? null : response)));
@@ -139,7 +143,7 @@ function renderState(summary) {
 
   if (!reachable) {
     countEl.textContent = '—';
-    countLabel.innerHTML = 'NOT<br>RUNNING';
+    setLabel('NOT', 'RUNNING');
     summaryEl.textContent = 'BaitBlocker did not answer on this page. Either the browser blocks extensions here — its own pages, the PDF viewer, the extensions gallery — or the page loaded before the extension was ready.';
     reloadButton.hidden = false;
     noteEl.textContent = 'Not running here';
@@ -153,7 +157,7 @@ function renderState(summary) {
 
   if (summary.enabled === false) {
     countEl.textContent = '—';
-    countLabel.innerHTML = 'SCAN<br>IS OFF';
+    setLabel('SCAN', 'IS OFF');
     summaryEl.textContent = 'Annotations are switched off everywhere. Turn them back on in Settings.';
     noteEl.textContent = 'Scanning is off everywhere';
     lensStrip.replaceChildren();
@@ -164,7 +168,7 @@ function renderState(summary) {
 
   if (paused) {
     countEl.textContent = '—';
-    countLabel.innerHTML = 'PAUSED<br>HERE';
+    setLabel('PAUSED', 'HERE');
     summaryEl.textContent = `BaitBlocker is leaving ${host} alone. Switch the pause off below to start marking again.`;
     noteEl.textContent = 'Marking is paused here';
     lensStrip.replaceChildren();
@@ -174,7 +178,7 @@ function renderState(summary) {
   }
 
   countEl.textContent = String(all.length);
-  countLabel.innerHTML = all.length === 1 ? 'PATTERN<br>FOUND' : 'PATTERNS<br>FOUND';
+  setLabel(all.length === 1 ? 'PATTERN' : 'PATTERNS', 'FOUND');
   summaryEl.textContent = all.length
     ? 'Select one, or step through them in order.'
     : 'Nothing on this page matched at your current sensitivity.';

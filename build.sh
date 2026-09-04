@@ -6,10 +6,21 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$ROOT"
 
+TARGET="${1:-chrome}"
+case "$TARGET" in
+  chrome|--chrome)   TARGET=chrome ;;
+  firefox|--firefox) TARGET=firefox ;;
+  *) echo "usage: ./build.sh [chrome|firefox]" >&2; exit 2 ;;
+esac
+
 VERSION="$(python3 -c 'import json;print(json.load(open("manifest.json"))["version"])')"
 STAGE="$(mktemp -d)"
 OUT="$ROOT/dist"
-ZIP="$OUT/baitblocker-$VERSION.zip"
+if [ "$TARGET" = firefox ]; then
+  ZIP="$OUT/baitblocker-$VERSION-firefox.zip"
+else
+  ZIP="$OUT/baitblocker-$VERSION.zip"
+fi
 
 FILES=(
   manifest.json
@@ -42,11 +53,17 @@ cp fonts/*.ttf fonts/OFL-*.txt "$STAGE/fonts/"
 find "$STAGE" -name '.DS_Store' -delete
 find "$STAGE" -name '._*' -delete
 
+# Firefox ships no background.service_worker in stable, and an event page has no
+# importScripts, so its manifest is derived here rather than maintained separately.
+if [ "$TARGET" = firefox ]; then
+  python3 "$ROOT/store/firefox_manifest.py" "$STAGE/manifest.json"
+fi
+
 python3 -c "import json,sys; json.load(open('$STAGE/manifest.json'))"
 
 ( cd "$STAGE" && zip -qrX "$ZIP" . )
 
-echo "built $ZIP"
+echo "built $ZIP  (target: $TARGET)"
 unzip -l "$ZIP" | tail -n 3
 python3 - "$ZIP" <<'PY'
 import sys, zipfile

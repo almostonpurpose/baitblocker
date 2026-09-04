@@ -1,4 +1,7 @@
-importScripts('config.js');
+// Chrome runs this as a service worker, where importScripts is how config.js gets in.
+// Firefox runs it as an event page, which has no importScripts — its manifest lists
+// config.js as a script ahead of this one instead.
+if (typeof importScripts === 'function') importScripts('config.js');
 
 const DEFAULTS = globalThis.BAITBLOCKER_DEFAULTS;
 const LENSES = globalThis.BAITBLOCKER_LENSES;
