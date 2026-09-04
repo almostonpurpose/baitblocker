@@ -13,7 +13,13 @@ allowlist and fails if anything unexpected got in.
 
 > Marks the places where online writing is working on you rather than informing you.
 
-**Category** — Productivity › Workflow & Planning
+**Category** — Privacy & Security
+
+That is where the comparable extensions sit and where the audience browses. It draws more
+review scrutiny than most categories, which combined with `<all_urls>` across all frames
+means a longer review; the permission justifications below are written for that question.
+Well-being is the honest lower-friction alternative if the wait matters more than the
+traffic.
 
 **Language** — English (United Kingdom)
 
