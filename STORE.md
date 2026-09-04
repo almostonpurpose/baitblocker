@@ -85,9 +85,10 @@ Tick nothing under "collected data". Then certify all three:
 - Not being used or transferred for purposes unrelated to the single purpose
 - Not being used or transferred to determine creditworthiness or for lending
 
-**Privacy policy URL** — required. The policy is `site/privacy.html`, published with the
-landing page. Paste the live URL (`https://baitblocker.org/privacy.html`, or the
-`*.pages.dev` equivalent while the domain is still propagating).
+**Privacy policy URL** — required. Paste `https://baitblocker.org/privacy` once the
+custom domain is attached, or `https://baitblocker.pages.dev/privacy` in the meantime.
+Both are live. Note the extensionless path: Pages 308-redirects `/privacy.html`, so use
+`/privacy` to avoid handing the reviewer a redirect.
 
 The policy is written against the UK and EU GDPR: named controller, legal basis and
 retention for the only processing that occurs (host server logs), processor and
