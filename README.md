@@ -57,8 +57,9 @@ The detection rules are deliberately transparent and local. This is still a rule
 prototype: it cannot establish intent, determine political ideology, or reliably find
 patterns that only emerge over a multi-step checkout or cancellation journey.
 
-Nothing leaves the browser. No network requests, no analytics, no account. See
-[`PRIVACY.md`](PRIVACY.md).
+Nothing leaves the browser. No network requests, no analytics, no account. The policy
+is [`site/privacy.html`](site/privacy.html); [`PRIVACY.md`](PRIVACY.md) explains where it
+lives and what still needs completing.
 
 ## Identity
 

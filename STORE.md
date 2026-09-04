@@ -85,8 +85,16 @@ Tick nothing under "collected data". Then certify all three:
 - Not being used or transferred for purposes unrelated to the single purpose
 - Not being used or transferred to determine creditworthiness or for lending
 
-**Privacy policy URL** — required. `PRIVACY.md` holds the text; it needs a public URL
-before submission (a page on the backbone, per the usual deploy path).
+**Privacy policy URL** — required. The policy is `site/privacy.html`, published with the
+landing page. Paste the live URL (`https://baitblocker.org/privacy.html`, or the
+`*.pages.dev` equivalent while the domain is still propagating).
+
+The policy is written against the UK and EU GDPR: named controller, legal basis and
+retention for the only processing that occurs (host server logs), processor and
+international-transfer disclosure for Cloudflare, the full list of data subject rights,
+and the right to complain to the ICO or a local supervisory authority. The site sets no
+cookies and makes no third-party requests, verified in a browser, so no consent banner is
+required.
 
 ## Assets
 
