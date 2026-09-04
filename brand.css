@@ -59,10 +59,15 @@
   --ground-2: #e9e6dc;
   --ink: #1d1a22;
   --ink-2: #4a4453;
-  --ink-3: #8b8497;
+  --ink-3: #655f72;
   --line: #cfcabc;
   --accent-lead: #dd3c3c;
   --accent-companion: #2f7d76;
+  /* Text-safe variants. The display reds and teals above stay on dots, hairlines,
+     underlines and filled controls, where WCAG text contrast does not apply. */
+  --accent-lead-text: #b82929;
+  --accent-companion-text: #276c66;
+  --focus: #276c66;
   --font-display: "Righteous", "Arial Rounded MT Bold", sans-serif;
   --font-text: "Besley", Georgia, serif;
   --font-mono: "Chivo Mono", "SFMono-Regular", Consolas, monospace;

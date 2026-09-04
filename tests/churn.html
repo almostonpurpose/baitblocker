@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>BaitBlocker churn fixture</title>
+<link rel="stylesheet" href="../overlay.css">
+<style>body{margin:40px;font:18px/1.5 Georgia,serif}h3{width:600px;height:30px;margin:8px 0}</style>
+</head>
+<body>
+<main id="feed"></main>
+<script>
+  window.__baitBlockerMessages = [];
+  window.chrome = {
+    storage: {
+      sync: { get: (defaults, callback) => callback(defaults) },
+      onChanged: { addListener: () => {} }
+    },
+    runtime: {
+      sendMessage: message => window.__baitBlockerMessages.push(message),
+      onMessage: { addListener: () => {} }
+    }
+  };
+
+  // Every repaint replaces the nodes, so the old findings retire and new ones take
+  // their place — the Temu case, where a page rerenders every couple of seconds.
+  const lines = [
+    'You won’t believe what happened next.',
+    'Only 3 left — selling fast.',
+    'A shocking result clearly shows the policy has failed.',
+    'Trusted by 40,000 readers.'
+  ];
+  let round = 0;
+  window.__rounds = 0;
+  function repaint() {
+    const feed = document.getElementById('feed');
+    feed.replaceChildren();
+    for (const line of lines) {
+      const heading = document.createElement('h3');
+      heading.textContent = `${line} #${round}`;
+      feed.append(heading);
+    }
+    round += 1;
+    window.__rounds = round;
+  }
+  repaint();
+  setInterval(repaint, 260);
+</script>
+<script src="../config.js"></script>
+<script src="../content.js"></script>
+</body>
+</html>

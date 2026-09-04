@@ -4,9 +4,13 @@
   const DEFAULTS = globalThis.BAITBLOCKER_DEFAULTS;
   const LEVEL = { strict: 0, balanced: 1, sensitive: 2 };
   const MARK = 'baitblocker-mark';
+  const TOOLTIP_ID = 'baitblocker-tooltip';
   const UI_ATTRIBUTE = 'data-baitblocker-ui';
   const findings = [];
   const elements = [];
+  // Slots freed by retired findings. Without this the table grows forever on pages
+  // that rerender constantly, and every reconcile walks the whole history.
+  const freeIndices = [];
   const elementIds = new WeakMap();
   const observedRoots = new WeakSet();
   const pending = new Set();
@@ -15,6 +19,9 @@
   let publishTimer;
   let tooltip;
   let hideTimer;
+  let describedElement = null;
+  let revealBurst = 0;
+  let revealResetTimer;
   const shadowCss = `
     .baitblocker-mark{position:relative!important;text-decoration-line:underline!important;text-decoration-color:var(--baitblocker-accent,#dd3c3c)!important;text-decoration-thickness:1.5px!important;text-underline-offset:2px!important;text-decoration-skip-ink:none!important}
     .baitblocker-mark.baitblocker-inline{background-image:linear-gradient(transparent 74%,var(--baitblocker-wash,#dd3c3c29) 74%)!important;background-repeat:no-repeat!important;box-decoration-break:clone!important;-webkit-box-decoration-break:clone!important}
@@ -43,7 +50,22 @@
   ];
 
   const normalise = value => (value || '').replace(/\s+/g, ' ').trim();
-  const allowed = rule => settings.enabled && settings[rule[0]] && rule[1] <= LEVEL[settings.sensitivity];
+
+  // The pause list is keyed on the top-level site, so a cross-origin subframe on a
+  // paused page stays quiet too. ancestorOrigins gives the top origin even when the
+  // frame cannot reach `top.location`.
+  const TOP_HOST = (() => {
+    try {
+      const origins = location.ancestorOrigins;
+      if (origins?.length) return new URL(origins[origins.length - 1]).hostname;
+    } catch { /* not available in this frame */ }
+    return location.hostname;
+  })();
+
+  const sitePaused = () => (settings?.disabledSites || []).includes(TOP_HOST);
+  const scanningAllowed = () => Boolean(settings?.enabled) && !sitePaused();
+  const lensOn = lens => scanningAllowed() && Boolean(settings[lens]);
+  const allowed = rule => lensOn(rule[0]) && rule[1] <= LEVEL[settings.sensitivity];
 
   function parseColour(value) {
     const numbers = String(value || '').match(/[\d.]+/g)?.map(Number) || [];
@@ -176,6 +198,41 @@
     return true;
   }
 
+  // Removes exactly what ensurePresentation added, so a lens can be switched off
+  // without reloading the page.
+  function unmark(element, finding) {
+    if (!element) return;
+    Object.keys(finding?.expectedStyles || {}).forEach(property => element.style.removeProperty(property));
+    ['--baitblocker-accent', '--baitblocker-wash'].forEach(property => element.style.removeProperty(property));
+    element.classList.remove(MARK, 'baitblocker-inline', 'baitblocker-new', 'baitblocker-focus');
+    delete element.dataset.baitblockerKind;
+    delete element.dataset.baitblockerId;
+    if (element.getAttribute('aria-describedby') === TOOLTIP_ID) element.removeAttribute('aria-describedby');
+    if (element.getAttribute('style') === '') element.removeAttribute('style');
+    elementIds.delete(element);
+  }
+
+  function clearAllMarks() {
+    elements.forEach((element, index) => unmark(element, findings[index]));
+    findings.length = 0;
+    elements.length = 0;
+    freeIndices.length = 0;
+    hideTooltip(true);
+  }
+
+  function reveal(element) {
+    clearTimeout(revealResetTimer);
+    revealResetTimer = setTimeout(() => { revealBurst = 0; }, 1200);
+    if (revealBurst >= 10) return;
+    const delay = revealBurst * 80;
+    revealBurst += 1;
+    setTimeout(() => {
+      if (!element.isConnected || !element.classList.contains(MARK)) return;
+      element.classList.add('baitblocker-new');
+      setTimeout(() => element.classList.remove('baitblocker-new'), 2250);
+    }, delay);
+  }
+
   function reconcileFindings() {
     findings.forEach((finding, index) => {
       if (!finding) return;
@@ -184,18 +241,25 @@
         if (element) elementIds.delete(element);
         findings[index] = null;
         elements[index] = null;
+        freeIndices.push(index);
         return;
       }
       ensurePresentation(element, finding);
     });
   }
 
+  function currentTactics() {
+    return findings.flatMap((finding, index) => finding
+      ? [{ lens: finding.lens, name: finding.name, why: finding.why, trigger: finding.trigger, sample: finding.sample, index }]
+      : []);
+  }
+
   function publish() {
     clearTimeout(publishTimer);
     publishTimer = setTimeout(() => {
       reconcileFindings();
-      const tactics = findings.flatMap((finding, index) => finding ? [{ lens: finding.lens, name: finding.name, why: finding.why, trigger: finding.trigger, sample: finding.sample, index }] : []);
-      chrome.runtime.sendMessage({ type: 'BAITBLOCKER_COUNT', count: tactics.length, tactics, pageTitle: document.title });
+      const tactics = currentTactics();
+      chrome.runtime.sendMessage({ type: 'BAITBLOCKER_COUNT', count: tactics.length, tactics, pageTitle: document.title, host: TOP_HOST });
     }, 100);
   }
 
@@ -206,16 +270,15 @@
       ensurePresentation(element, findings[existing]);
       return false;
     }
-    const index = findings.length;
+    const index = freeIndices.length ? freeIndices.pop() : findings.length;
     const display = getComputedStyle(element).display;
     const washEligible = display.startsWith('inline') && getComputedStyle(element).backgroundImage === 'none';
     const finding = { index, lens, name, why, trigger: normalise(trigger).slice(0, 100), sample: normalise(element.innerText || element.textContent).slice(0, 180), colour: annotationColour(element), washEligible };
-    findings.push(finding);
-    elements.push(element);
+    findings[index] = finding;
+    elements[index] = element;
     elementIds.set(element, index);
     ensurePresentation(element, finding);
-    element.classList.add('baitblocker-new');
-    setTimeout(() => element.classList.remove('baitblocker-new'), 2250);
+    reveal(element);
     publish();
     return true;
   }
@@ -229,7 +292,7 @@
   }
 
   function timerFinding(start) {
-    if (!settings.pressure || !isVisible(start)) return;
+    if (!lensOn('pressure') || !isVisible(start)) return;
     const seedText = normalise(start.innerText || start.textContent);
     const seedMetadata = normalise(`${start.id} ${start.className} ${start.getAttribute?.('aria-label')} ${start.getAttribute?.('data-testid')}`);
     const clockPattern = /(?:\b\d{1,2}\s*:\s*\d{2}(?:\s*:\s*\d{2})?\b)|(?:\b\d+\s*(?:hours?|hrs?|minutes?|mins?|seconds?|secs?)\b)/i;
@@ -270,7 +333,7 @@
       timerFinding(element);
     });
 
-    if (settings.pressure) {
+    if (lensOn('pressure')) {
       root.querySelectorAll?.('input[type="checkbox"]:checked,input[type="radio"]:checked').forEach(input => {
         const label = input.labels?.[0] || input.closest('label') || input.parentElement;
         if (/newsletter|marketing|offers?|updates?|insurance|add-on|share/i.test(normalise(label?.innerText))) annotate(label, 'pressure', 'Preselected choice', 'This option is already selected, making acceptance the path of least resistance.', normalise(label?.innerText));
@@ -333,7 +396,7 @@
   function ensureTooltip() {
     if (tooltip?.isConnected) return tooltip;
     tooltip = document.createElement('aside');
-    tooltip.id = 'baitblocker-tooltip';
+    tooltip.id = TOOLTIP_ID;
     tooltip.setAttribute(UI_ATTRIBUTE, 'true');
     tooltip.setAttribute('role', 'tooltip');
     document.documentElement.appendChild(tooltip);
@@ -373,11 +436,20 @@
     card.style.top = `${above ? rect.top - 10 : rect.bottom + 10}px`;
     card.dataset.position = above ? 'above' : 'below';
     card.hidden = false;
+    if (describedElement && describedElement !== element) describedElement.removeAttribute('aria-describedby');
+    element.setAttribute('aria-describedby', TOOLTIP_ID);
+    describedElement = element;
   }
 
-  function hideTooltip() {
+  function hideTooltip(immediate = false) {
     clearTimeout(hideTimer);
-    hideTimer = setTimeout(() => { if (tooltip) tooltip.hidden = true; }, 130);
+    const close = () => {
+      if (tooltip) tooltip.hidden = true;
+      if (describedElement?.getAttribute('aria-describedby') === TOOLTIP_ID) describedElement.removeAttribute('aria-describedby');
+      describedElement = null;
+    };
+    if (immediate) return close();
+    hideTimer = setTimeout(close, 130);
   }
 
   function onHover(event) {
@@ -390,13 +462,24 @@
     if (marked && !marked.contains(event.relatedTarget)) hideTooltip();
   }
 
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && tooltip && !tooltip.hidden) hideTooltip(true);
+  }, true);
+
   chrome.runtime.onMessage.addListener((message, sender, respond) => {
-    if (message.type !== 'JUMP_TO_FINDING') return;
+    if (message.type === 'REPUBLISH') {
+      reconcileFindings();
+      respond({ tactics: currentTactics(), pageTitle: document.title, host: TOP_HOST, paused: sitePaused() });
+      return false;
+    }
+    if (message.type !== 'JUMP_TO_FINDING') return false;
     reconcileFindings();
-    let element = elements[message.index];
+    const signature = message.finding || {};
+    const atIndex = findings[message.index];
+    const sameFinding = atIndex && atIndex.lens === signature.lens && atIndex.name === signature.name;
+    let element = sameFinding ? elements[message.index] : null;
     if (!element?.isConnected || !isVisible(element)) {
       scan(document.body);
-      const signature = message.finding || {};
       let replacementIndex = findings.findIndex(finding => finding && finding.lens === signature.lens && finding.name === signature.name && (!signature.trigger || finding.trigger === signature.trigger));
       if (replacementIndex < 0) replacementIndex = findings.findIndex(finding => finding && finding.lens === signature.lens && finding.name === signature.name);
       if (replacementIndex >= 0) element = elements[replacementIndex];
@@ -409,13 +492,28 @@
     setTimeout(() => showTooltip(element), 300);
     setTimeout(() => element.classList.remove('baitblocker-focus'), 1700);
     respond({ ok: true });
+    return false;
+  });
+
+  function start() {
+    if (!scanningAllowed()) return publish();
+    scan(document.body);
+    observe(document.documentElement);
+    publish();
+  }
+
+  // Settings apply to the open page rather than waiting for a reload.
+  chrome.storage.onChanged.addListener((changes, area) => {
+    if (area !== 'sync' || !settings) return;
+    const touched = Object.keys(changes).filter(key => key in DEFAULTS);
+    if (!touched.length) return;
+    touched.forEach(key => { settings[key] = changes[key].newValue; });
+    clearAllMarks();
+    start();
   });
 
   chrome.storage.sync.get(DEFAULTS, value => {
     settings = value;
-    if (!settings.enabled) return publish();
-    scan(document.body);
-    observe(document.documentElement);
-    publish();
+    start();
   });
 })();

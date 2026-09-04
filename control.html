@@ -3,40 +3,69 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>BaitBlocker — Tune the scan</title>
+  <title>BaitBlocker — Settings</title>
   <link rel="stylesheet" href="control.css">
 </head>
 <body>
   <nav class="mast">
     <span class="wordmark">BAIT<em>BLOCKER</em></span>
-    <span class="machine">BB://CONTROL · v0.4</span>
+    <span class="machine" id="version">SETTINGS</span>
   </nav>
 
   <main>
     <header class="hero">
-      <div class="intro">
-        <p class="eyebrow">YOUR ATTENTION, VISIBLE</p>
-        <h1>Choose what<br>you want to <em>notice.</em></h1>
-        <p class="deck">BaitBlocker names a mechanism. It does not make the verdict for you.</p>
-        <label class="master">
-          <span><b>Annotations active</b><small>Mark the page as you read</small></span>
-          <input id="enabled" type="checkbox">
-          <i aria-hidden="true"></i>
-        </label>
+      <h1>Control your<br><em>own mind.</em></h1>
+      <label class="master">
+        <span><b>Annotations active</b><small>Mark the page as you read</small></span>
+        <input id="enabled" type="checkbox">
+        <i aria-hidden="true"></i>
+      </label>
+    </header>
+
+    <div class="reading">
+      <div class="reading-copy">
+        <p>Persuasion in an interface is a documented craft. Thaler and Sunstein called
+        the arrangement around a decision its <em>choice architecture</em> — which option
+        is preselected, what sits in front of you, what is buried. Nothing is taken from
+        you and the outcome still moves.</p>
+
+        <p>Cialdini catalogued the levers aimed at you directly: scarcity, social proof,
+        authority, commitment, reciprocity, liking. Tversky and Kahneman showed that two
+        identical descriptions of a fact produce different decisions. Loewenstein's
+        information gap explains the withheld headline — open a gap and closing it starts
+        to feel urgent.</p>
+
+        <p>Harry Brignull named the applied version <em>dark patterns</em> in 2010. Mathur
+        and colleagues found them on roughly one in nine of 11,000 shopping sites, and the
+        FTC and the EU's Digital Services Act now write rules against parts of the
+        practice. BaitBlocker matches phrasings these mechanisms tend to produce: a rough
+        instrument pointed at a real thing.</p>
       </div>
 
-      <aside class="specimen">
-        <span class="machine">LIVE SPECIMEN · PRESSURE</span>
-        <blockquote>“Only <mark>3 left</mark>. Complete your booking before the timer runs out.”</blockquote>
-        <div class="tell">
-          <i></i><u></u><b>scarcity pressure</b>
-        </div>
+      <aside class="reading-list">
+        <span class="machine">WHERE EACH CATEGORY COMES FROM</span>
+        <dl>
+          <dt data-lens="pressure">Pressure</dt>
+          <dd>Thaler &amp; Sunstein, <i>Nudge</i> (2008) · Cialdini on scarcity ·
+          Brignull's dark patterns (2010) · Mathur et al. (2019)</dd>
+          <dt data-lens="influence">Influence</dt>
+          <dd>Cialdini, <i>Influence</i> (1984) — social proof, authority, commitment,
+          liking</dd>
+          <dt data-lens="engagement">Engagement bait</dt>
+          <dd>Loewenstein, <i>The Psychology of Curiosity</i> (1994) · Simon on attention
+          as the scarce resource (1971) · Fogg, <i>Persuasive Technology</i> (2003)</dd>
+          <dt data-lens="framing">Framing</dt>
+          <dd>Tversky &amp; Kahneman, <i>The Framing of Decisions and the Psychology of
+          Choice</i>, Science (1981)</dd>
+        </dl>
+        <p class="regulation">FTC, <i>Bringing Dark Patterns to Light</i> (2022) · EU
+        Digital Services Act, Article&nbsp;25</p>
       </aside>
-    </header>
+    </div>
 
     <section>
       <div class="section-head">
-        <p><span>01</span> PAGE LENSES</p>
+        <p><span>01</span> CATEGORIES</p>
         <span>WHAT GETS MARKED</span>
       </div>
       <div class="lenses">
@@ -69,19 +98,35 @@
         <span id="sensitivity-label">BALANCED</span>
       </div>
       <div class="sensitivity">
+        <label class="visually-hidden" for="sensitivity">Sensitivity: how willing BaitBlocker is to flag lower-confidence cues</label>
         <input id="sensitivity" type="range" min="0" max="2" step="1">
-        <div class="range-labels">
-          <span><b>Strict</b><small>High-confidence tells</small></span>
+        <div class="range-labels" aria-hidden="true">
+          <span><b>Strict</b><small>High-confidence matches</small></span>
           <span><b>Balanced</b><small>The useful default</small></span>
           <span><b>Sensitive</b><small>Subtler language</small></span>
         </div>
       </div>
     </section>
 
+    <section>
+      <div class="section-head">
+        <p><span>03</span> PAUSED SITES</p>
+        <span id="paused-count">NONE</span>
+      </div>
+      <ul class="paused" id="paused-list" aria-label="Sites where BaitBlocker is paused"></ul>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <p><span>04</span> TOTALS</p>
+        <span id="stats-since">SINCE INSTALL</span>
+      </div>
+      <div class="stats" id="stats"></div>
+    </section>
+
     <footer>
-      <p>Changes apply when you reload the page.</p>
+      <p>Changes apply straight away, on pages you already have open.</p>
       <button id="reset">RESTORE DEFAULTS</button>
-      <span>THE HOOK IS THE MESSAGE</span>
     </footer>
   </main>
 

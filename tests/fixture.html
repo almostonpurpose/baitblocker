@@ -27,7 +27,10 @@
   <script>
     window.__baitBlockerMessages = [];
     window.chrome = {
-      storage: { sync: { get: (defaults, callback) => callback(defaults) } },
+      storage: {
+        sync: { get: (defaults, callback) => callback(defaults) },
+        onChanged: { addListener: listener => { window.__baitBlockerSettingsListener = listener; } }
+      },
       runtime: {
         sendMessage: message => window.__baitBlockerMessages.push(message),
         onMessage: { addListener: listener => { window.__baitBlockerListener = listener; } }

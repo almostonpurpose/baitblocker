@@ -27,6 +27,9 @@ with sync_playwright() as playwright:
     assert page.locator("#urgency").get_attribute("data-baitblocker-kind") == "pressure"
     assert page.locator("#urgency").evaluate("el => el.style.getPropertyPriority('text-decoration-color')") == "important"
     assert page.locator("#late-bait-replacement").evaluate("el => getComputedStyle(el).textDecorationThickness") == "1.5px"
+    page.wait_for_function(
+        "document.querySelector('#late-bait-replacement')?.classList.contains('baitblocker-new')"
+    )
     assert page.locator("#late-bait-replacement").evaluate("el => getComputedStyle(el).animationIterationCount") == "3"
     assert "underline" in page.locator("#shadow-host").evaluate(
         "el => getComputedStyle(el.shadowRoot.querySelector('#shadow-bait')).textDecorationLine"
@@ -76,7 +79,56 @@ with sync_playwright() as playwright:
     )
     assert "shocking" in tooltip.inner_text().lower()
 
+    assert page.locator("#urgency").get_attribute("aria-describedby") is None
+    page.locator("#urgency").dispatch_event("pointerover")
+    page.wait_for_function(
+        "document.querySelector('#urgency')?.getAttribute('aria-describedby') === 'baitblocker-tooltip'"
+    )
+    page.keyboard.press("Escape")
+    page.wait_for_function("document.querySelector('#baitblocker-tooltip').hidden === true")
+    assert page.locator("#urgency").get_attribute("aria-describedby") is None
+
     page.screenshot(path=str(ARTIFACTS / "marked-page.png"), full_page=True)
+
+    # A lens switched off clears its marks on the open page, and switching it back on
+    # restores them, without a reload.
+    page.evaluate(
+        """() => window.__baitBlockerSettingsListener(
+          {framing: {newValue: false, oldValue: true}}, 'sync')"""
+    )
+    page.wait_for_function(
+        "!document.querySelector('#framing-copy').classList.contains('baitblocker-mark')"
+    )
+    assert page.locator("#framing-copy").get_attribute("data-baitblocker-kind") is None
+    assert page.locator("#framing-copy").get_attribute("style") in (None, "")
+    assert page.locator("#urgency").evaluate("el => el.classList.contains('baitblocker-mark')")
+
+    page.evaluate(
+        """() => window.__baitBlockerSettingsListener(
+          {framing: {newValue: true, oldValue: false}}, 'sync')"""
+    )
+    page.wait_for_function(
+        "document.querySelector('#framing-copy').classList.contains('baitblocker-mark')"
+    )
+
+    # A paused site drops every mark on the page.
+    page.evaluate(
+        """() => window.__baitBlockerSettingsListener(
+          {disabledSites: {newValue: [location.hostname], oldValue: []}}, 'sync')"""
+    )
+    page.wait_for_function("!document.querySelectorAll('.baitblocker-mark').length")
+    page.wait_for_function(
+        """() => {
+          const latest = [...window.__baitBlockerMessages].reverse().find(m => m.type === 'BAITBLOCKER_COUNT');
+          return latest && latest.count === 0;
+        }"""
+    )
+    republished = page.evaluate(
+        "[...window.__baitBlockerMessages].reverse().find(m => m.type === 'BAITBLOCKER_COUNT')"
+    )
+    assert republished["count"] == 0
+    assert republished["host"] == "127.0.0.1"
+
     browser.close()
 
-print("PASS extension annotations, navigation recovery and hover explanation")
+print("PASS extension annotations, recovery, hover explanation and live settings")
