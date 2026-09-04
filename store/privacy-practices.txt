@@ -1,0 +1,80 @@
+BAITBLOCKER — CHROME WEB STORE, PRIVACY PRACTICES TAB
+Copy each block into the matching field. Nothing here needs editing.
+
+=============================================================================
+1. SINGLE PURPOSE DESCRIPTION
+=============================================================================
+BaitBlocker annotates the page you are reading to show where its wording uses a
+known persuasion pattern, and explains each one in place.
+
+=============================================================================
+2. HOST PERMISSION JUSTIFICATION   (the one reviewers push back on)
+=============================================================================
+The extension's only function is annotating the page the user is reading.
+Persuasion patterns appear on any site - retail, news, social, booking - so the
+user cannot be asked to predeclare where to look. The content script reads
+visible text in the page and marks it there. It runs in all frames because
+booking timers and engagement bait are routinely rendered inside iframes. No
+page content is stored, transmitted, or sent off the device, and the extension
+makes no network requests.
+
+=============================================================================
+3. activeTab JUSTIFICATION
+=============================================================================
+Lets the toolbar popup message the page the user is currently looking at, so
+clicking an entry in the popup's list scrolls to that mark on the page. Used
+only while the popup is open.
+
+=============================================================================
+4. storage JUSTIFICATION
+=============================================================================
+Saves the user's own settings (which categories are on, sensitivity, and the
+list of sites they have paused) and a local count of pages scanned and patterns
+found. No page content and no URLs beyond the user's own pause list. All of it
+stays in the browser.
+
+=============================================================================
+5. webNavigation JUSTIFICATION
+=============================================================================
+Detects top-level and subframe navigation so the toolbar count resets on a new
+page, and so findings belonging to frames that no longer exist are retired
+instead of being reported as still present.
+
+=============================================================================
+6. REMOTE CODE
+=============================================================================
+Select: "No, I am not using remote code."
+
+If a text box appears anyway:
+No remote code. All scripts, styles, detection rules and fonts ship inside the
+package. The extension loads nothing at runtime and makes no network requests.
+
+=============================================================================
+7. DATA USAGE
+=============================================================================
+Collected data: tick NOTHING. The extension collects none of the listed
+categories.
+
+Then tick all three certifications:
+  - I do not sell or transfer user data to third parties, outside of the
+    approved use cases
+  - I do not use or transfer user data for purposes that are unrelated to my
+    item's single purpose
+  - I do not use or transfer user data to determine creditworthiness or for
+    lending purposes
+
+=============================================================================
+8. PRIVACY POLICY URL
+=============================================================================
+https://baitblocker.org/privacy
+
+=============================================================================
+NOT ON THIS TAB - SETTINGS PAGE
+=============================================================================
+Publisher contact email: set it, then click the verification link Google emails
+you. It is displayed publicly on the listing, so it should match the address in
+the privacy policy (currently aswad.amr@gmail.com).
+
+Trader status: your declaration to make. On what you have described - free, no
+revenue, no business entity - non-trader is the ordinary answer. It must change
+before you charge for anything.
