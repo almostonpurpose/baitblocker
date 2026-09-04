@@ -4,6 +4,10 @@
   const DEFAULTS = globalThis.BAITBLOCKER_DEFAULTS;
   const LEVEL = { strict: 0, balanced: 1, sensitive: 2 };
   const MARK = 'baitblocker-mark';
+  // Longest run of text a single mark may cover. The old 420 skipped ordinary article
+  // paragraphs outright, so long-form pages went almost unmarked; 1200 covers a normal
+  // paragraph while still refusing to underline a whole page-sized container.
+  const MAX_RUN = 1200;
   const TOOLTIP_ID = 'baitblocker-tooltip';
   const UI_ATTRIBUTE = 'data-baitblocker-ui';
   const findings = [];
@@ -285,10 +289,21 @@
 
   function matchCopy(element, suppliedText) {
     if (!isVisible(element) || elementIds.has(element)) return;
+    // Nested inside a mark: the narrower one is the better one, leave it alone. Ancestors
+    // only — a node cloned from a marked one carries a stale class and must still be
+    // recoverable.
+    if (element.parentElement?.closest?.(`.${MARK}`)) return;
     const text = normalise(suppliedText ?? element.innerText ?? element.textContent);
-    if (text.length < 5 || text.length > 420) return;
+    if (text.length < 5 || text.length > MAX_RUN) return;
     const rule = rules.find(candidate => allowed(candidate) && candidate[4].test(text));
-    if (rule) annotate(element, rule[0], rule[2], rule[3], text.match(rule[4])?.[0] || '');
+    if (!rule) return;
+    const trigger = text.match(rule[4])?.[0] || '';
+    // Text nodes are scanned before their containers, so by the time a paragraph is
+    // considered, the phrase may already carry a tighter mark. Marking the paragraph too
+    // would underline the whole thing and report the same finding twice.
+    if (trigger && [...(element.querySelectorAll?.(`.${MARK}`) || [])]
+      .some(inner => normalise(inner.textContent).includes(trigger))) return;
+    annotate(element, rule[0], rule[2], rule[3], trigger);
   }
 
   function timerFinding(start) {

@@ -21,6 +21,15 @@
     <section id="dark"><p id="dark-urgency">This limited-time offer ends tonight.</p></section>
     <section id="red-surface"><p id="red-urgency">Only 2 remaining.</p></section>
     <section id="framing"><p id="framing-copy">A shocking result clearly shows the policy has failed.</p></section>
+    <section id="long"><p id="long-para">The committee spent eleven months gathering
+      evidence from every regional office, and the resulting document runs to some four
+      hundred pages of tables, appendices and correspondence that few outside the
+      secretariat will ever read in full. Buried in the third annexe, well past the point
+      where most readers give up, sits the sentence that matters: a shocking result that
+      the authors decline to contextualise, presented without the qualification such a
+      contested finding would ordinarily carry anywhere else in the report.</p></section>
+    <section id="nested"><p id="nested-para">Reports of this kind rarely surprise anyone,
+      but this one has a <b id="nested-bit">shocking</b> conclusion.</p></section>
     <section id="dynamic"></section>
     <section id="shadow-host"></section>
   </main>
@@ -52,10 +61,13 @@
       urgency.style.cssText = '';
     }, 420);
 
-    setTimeout(() => {
+    // Poll rather than guess at a timing: capture the finding as soon as it is published,
+    // so adding fixture content cannot push it past a fixed deadline.
+    const capture = setInterval(() => {
       const published = [...window.__baitBlockerMessages].reverse().find(message => message.type === 'BAITBLOCKER_COUNT');
-      window.__oldLateFinding = published?.tactics.find(finding => finding.trigger.toLowerCase().includes('wait till the end'));
-    }, 570);
+      const found = published?.tactics.find(finding => (finding.trigger || '').toLowerCase().includes('wait till the end'));
+      if (found) { window.__oldLateFinding = found; clearInterval(capture); }
+    }, 50);
 
     setTimeout(() => {
       const old = document.querySelector('#late-bait');

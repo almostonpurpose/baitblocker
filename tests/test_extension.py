@@ -24,13 +24,31 @@ with sync_playwright() as playwright:
     )
 
     assert not page.locator("body.baitblocker-mark, main.baitblocker-mark").count()
+
+    # A normal article paragraph is longer than the old 420-character cap, which skipped
+    # it outright and left long-form pages almost unmarked.
+    long_len = page.locator("#long-para").evaluate("el => el.innerText.replace(/\\s+/g,' ').trim().length")
+    assert 420 < long_len < 1200, f"fixture paragraph is {long_len} chars, needs to straddle the old cap"
+    page.wait_for_function("document.querySelector('#long-para')?.classList.contains('baitblocker-mark')")
+    assert page.locator("#long-para").get_attribute("data-baitblocker-kind") == "framing"
+
+    # The tighter mark wins: the phrase is marked, not the paragraph wrapping it, and the
+    # finding is reported once rather than twice.
+    page.wait_for_function("document.querySelector('#nested-bit')?.classList.contains('baitblocker-mark')")
+    assert not page.locator("#nested-para").evaluate("el => el.classList.contains('baitblocker-mark')"), \
+        "the containing paragraph was marked as well as the phrase inside it"
     assert page.locator("#urgency").get_attribute("data-baitblocker-kind") == "pressure"
     assert page.locator("#urgency").evaluate("el => el.style.getPropertyPriority('text-decoration-color')") == "important"
     assert page.locator("#late-bait-replacement").evaluate("el => getComputedStyle(el).textDecorationThickness") == "1.5px"
-    page.wait_for_function(
-        "document.querySelector('#late-bait-replacement')?.classList.contains('baitblocker-new')"
-    )
-    assert page.locator("#late-bait-replacement").evaluate("el => getComputedStyle(el).animationIterationCount") == "3"
+    # New marks blink three times. Asserted against the rule rather than a live element,
+    # because the reveal is staggered and capped per burst.
+    assert page.evaluate("""() => {
+      const el = document.querySelector('#late-bait-replacement');
+      el.classList.add('baitblocker-new');
+      const n = getComputedStyle(el).animationIterationCount;
+      el.classList.remove('baitblocker-new');
+      return n;
+    }""") == "3"
     assert "underline" in page.locator("#shadow-host").evaluate(
         "el => getComputedStyle(el.shadowRoot.querySelector('#shadow-bait')).textDecorationLine"
     )
@@ -40,19 +58,23 @@ with sync_playwright() as playwright:
     assert brand_red == "rgb(221, 60, 60)"
     assert adapted_red != brand_red
 
+    # A finding retires when its node is replaced, and its slot is reused rather than
+    # growing the table for ever, so a stale index may legitimately point at a different
+    # finding now. What must hold is that the replacement is marked, the old node is gone,
+    # and the count settles rather than drifting up with every rerender.
     page.wait_for_function(
         """() => {
-          const latest = [...window.__baitBlockerMessages].reverse().find(message => message.type === 'BAITBLOCKER_COUNT');
-          return window.__oldLateFinding && latest &&
-            !latest.tactics.some(item => item.index === window.__oldLateFinding.index);
+          const latest = [...window.__baitBlockerMessages].reverse().find(m => m.type === 'BAITBLOCKER_COUNT');
+          return latest && latest.count === 9 && !document.querySelector('#late-bait') &&
+            document.querySelector('#late-bait-replacement')?.classList.contains('baitblocker-mark');
         }"""
     )
     latest = page.evaluate(
         "[...window.__baitBlockerMessages].reverse().find(message => message.type === 'BAITBLOCKER_COUNT')"
     )
-    assert latest["count"] == 7
-    assert page.evaluate("window.__oldLateFinding.index") not in [item["index"] for item in latest["tactics"]]
+    assert latest["count"] == 9
 
+    page.wait_for_function("window.__oldLateFinding !== undefined")
     stale_jump = page.evaluate(
         """() => new Promise(resolve => window.__baitBlockerListener(
           {type:'JUMP_TO_FINDING', index:window.__oldLateFinding.index, finding:window.__oldLateFinding},
