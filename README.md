@@ -8,36 +8,23 @@ already have open, so most changes need no page reload.
 **Pin the toolbar icon.** Chrome folds unpinned extensions into the puzzle-piece menu,
 and the badge count is invisible while it is folded away.
 
-## What you see
+## What it does
 
-The toolbar button carries the count of patterns found on the current page, and its
-tooltip breaks that count down by category. A muted `off` badge means BaitBlocker is paused, either
-on that site or everywhere; a blank badge means the page is clean or cannot be read.
+BaitBlocker underlines the sales tactics and clickbait on a web page, so you can see them
+while you read. Hover over an underline and it tells you what the tactic is called and how
+it works.
 
-The popup is an index of every finding: a per-category tally that filters the list,
-previous and next controls, and a jump-to-mark on each row. It also carries a per-site
-pause and a running count of what BaitBlocker has found since it was installed.
+The toolbar button shows how many it found on the page, and its tooltip breaks that down
+by category. A muted `off` badge means BaitBlocker is paused, either on that site or
+everywhere; a blank badge means the page is clean or cannot be read.
 
-On the page, a thin red mark means something has been caught, and the underline style
-shows the category — solid for pressure, dotted for influence, dashed for engagement
-bait, wavy for framing. New marks pulse, staggered so a busy page does not
-strobe. Hover or keyboard focus reveals the mechanism; framing explanations quote the
-exact words that triggered the rule. Escape dismisses the explanation.
+Click the button for a list of everything found, with previous and next controls and a
+jump-to-mark on each row. It also carries a per-site pause and a running count since
+install.
 
-## Why
-
-Persuasion in an interface is a documented craft. Thaler and Sunstein called the
-arrangement around a decision its choice architecture: which option is preselected, what
-sits in front of you, what is buried. Cialdini catalogued the levers aimed at the reader
-directly — scarcity, social proof, authority, commitment, reciprocity, liking. Tversky
-and Kahneman showed that two identical descriptions of a fact produce different
-decisions, and Loewenstein's information gap explains the withheld headline.
-
-Harry Brignull named the applied version dark patterns in 2010. Mathur et al. found them
-on roughly one in nine of 11,000 shopping sites crawled, and the FTC and the EU's Digital
-Services Act now write rules against parts of the practice. BaitBlocker matches phrasings
-these mechanisms tend to produce: a rough instrument pointed at a real thing. The sources
-mapped to each category sit at the top of the settings page.
+The underline style shows the category: solid for pressure, dotted for influence, dashed
+for engagement bait, wavy for framing. New marks pulse, staggered so a busy page does not
+strobe. Escape dismisses an explanation.
 
 ## Controls
 

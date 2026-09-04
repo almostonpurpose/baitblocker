@@ -19,40 +19,31 @@ allowlist and fails if anything unexpected got in.
 
 **Detailed description**
 
-> BaitBlocker marks the places where a page is working on you rather than informing you.
+> BaitBlocker underlines the sales tactics and clickbait on a web page, so you can see
+> them while you read.
 >
-> It reads the page you are already reading and draws a thin red line under the moments
-> where the writing is doing something: a countdown that makes a decision feel urgent, a
-> stock number that pushes you to hurry, a headline built to withhold its own point, a
-> charged word placed before the evidence. Hover a mark and BaitBlocker names the
-> mechanism in one sentence. Framing marks quote the exact words that set them off.
+> When it finds one, it underlines it in red. Hover over the underline and it tells you
+> what the tactic is called and how it works. The toolbar button shows how many it found
+> on the page. Click the button for a list, and click any item to jump to it.
 >
-> The toolbar button carries a count of what was found on the page. Open it for an index
-> of every mark, filterable by category, with previous and next controls that walk you
-> through the page one at a time.
+> What it looks for:
 >
-> Four categories, each switchable on its own:
+> • Pressure — countdown timers, "only 3 left", "was £89, now £49", pre-ticked boxes,
+> auto-renewal mentioned in small print
+> • Influence — "join 40,000 customers", "doctor recommended", "for people who care about"
+> • Engagement bait — "you won't believe what happened next", "wait for the end",
+> "comment below if you agree"
+> • Framing — "shocking", "proves that", "experts say", "everyone knows"
 >
-> • Pressure — urgency, scarcity, price anchoring, preselected options, hidden renewals
-> • Influence — social proof, authority cues, identity appeals
-> • Engagement bait — clickbait, search bait, reaction farming
-> • Framing — loaded language, over-certainty, unnamed sources
+> You can switch any of the four off. A sensitivity setting controls how much it flags.
+> You can pause it on a site you don't want it running on. Changes take effect
+> immediately, without reloading the page.
 >
-> A sensitivity control decides how willing it is to flag lower-confidence cues. Pause it
-> on any site from the toolbar. Settings apply straight away, on pages you already have
-> open.
+> It works by matching phrases, so it will miss things, and it will sometimes underline
+> something harmless. It can't tell you what anyone intended.
 >
-> Persuasion in an interface is a documented craft. The categories map to work by Thaler
-> and Sunstein on choice architecture, Cialdini on the levers of influence, Tversky and
-> Kahneman on framing, and the dark patterns literature that followed. The settings page
-> cites the sources.
->
-> The rules are plain pattern matching, run locally. No network requests, no account, no
-> analytics. Nothing leaves your browser.
->
-> Honest about its limits: this is a rule-based tool. It cannot establish intent, judge
-> political ideology, or catch patterns that only emerge across a multi-step checkout or
-> cancellation flow.
+> No account, no tracking, nothing sent anywhere. It runs entirely in your browser and
+> makes no network requests at all.
 
 ## Single purpose statement
 

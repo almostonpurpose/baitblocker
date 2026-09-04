@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>BaitBlocker — see the persuasion patterns on any page</title>
-<meta name="description" content="A browser extension that marks the places where online writing is working on you rather than informing you. Runs locally, sends nothing anywhere.">
+<meta name="description" content="A browser extension that underlines the sales tactics and clickbait on a web page and explains each one. Runs in your browser, sends nothing anywhere.">
 <link rel="icon" href="icon.png">
 <link rel="stylesheet" href="styles.css">
 <meta property="og:title" content="BaitBlocker">
-<meta property="og:description" content="Marks the places where online writing is working on you rather than informing you.">
+<meta property="og:description" content="Underlines the sales tactics and clickbait on a web page, and explains each one.">
 <meta property="og:type" content="website">
 </head>
 <body>
@@ -25,9 +25,9 @@
 
   <div class="hero">
     <h1>Control your<br><em>own mind.</em></h1>
-    <p class="stand">BaitBlocker reads the page you are already reading and marks the
-    moments where the writing is doing something to you rather than telling you
-    something. Hover a mark and it names the mechanism.</p>
+    <p class="stand">BaitBlocker underlines the sales tactics and clickbait on a web
+    page, so you can see them while you read. Hover over an underline and it tells you
+    what the tactic is called and how it works.</p>
     <div class="cta">
       <a class="install" id="install" href="#" aria-disabled="true">Coming to the Chrome Web Store</a>
       <small>Free · No account · Nothing leaves your browser</small>
@@ -56,26 +56,25 @@
     <div class="cards">
       <div class="card" data-c="pressure">
         <b>Pressure</b>
-        <p>Urgency, scarcity, price anchoring, preselected options, renewals mentioned in
-        small type.</p>
+        <p>Countdown timers, “only 3 left”, “was £89, now £49”, pre-ticked boxes,
+        auto-renewal in small print.</p>
         <small>Solid underline</small>
       </div>
       <div class="card" data-c="influence">
         <b>Influence</b>
-        <p>Social proof, authority cues, identity appeals — the levers aimed at you
-        directly.</p>
+        <p>“Join 40,000 customers”, “doctor recommended”, “for people who care
+        about…”.</p>
         <small>Dotted underline</small>
       </div>
       <div class="card" data-c="engagement">
         <b>Engagement bait</b>
-        <p>Headlines built to withhold their own point, search bait, and copy that asks
-        for a reaction as part of the pitch.</p>
+        <p>“You won’t believe what happened next”, “wait for the end”, “comment below if
+        you agree”.</p>
         <small>Dashed underline</small>
       </div>
       <div class="card" data-c="framing">
         <b>Framing</b>
-        <p>Charged words placed before the evidence, claims framed as settled, sources
-        left unnamed.</p>
+        <p>“Shocking”, “proves that”, “experts say”, “everyone knows”.</p>
         <small>Wavy underline</small>
       </div>
     </div>
@@ -104,9 +103,9 @@
         FTC and the EU's Digital Services Act now write rules against parts of the
         practice.</p>
 
-        <p>BaitBlocker matches phrasings these mechanisms tend to produce: a rough
-        instrument pointed at a real thing. It is rule-based, so it cannot establish
-        intent, judge ideology, or catch what only emerges across a multi-step checkout.</p>
+        <p>BaitBlocker works by matching phrases these mechanisms tend to produce. That
+        means it will miss things, and it will sometimes underline something harmless. It
+        cannot tell you what anyone intended.</p>
       </div>
 
       <aside class="panel">
@@ -130,12 +129,12 @@
     </div>
     <div class="single">
       <div>
-        <p>BaitBlocker makes no network requests. The rules, the fonts and the
-        explanations all ship inside the extension. Page text is read in the page and
-        never copied off your machine.</p>
-        <p>It stores two things locally: your own settings, and a count of how many pages
-        have been scanned and how many patterns were marked. No URLs, no page text, no
-        account. <a href="/privacy">The full policy</a> runs to about a page.</p>
+        <p>Nothing. BaitBlocker makes no network requests at all. The rules, the fonts and
+        the explanations are all inside the extension, and page text is read in the page
+        and never copied off your machine.</p>
+        <p>It stores two things in your browser: your settings, and a count of how many
+        pages have been scanned and how many patterns were found. No URLs, no page text,
+        no account. <a href="/privacy">The full policy</a> runs to about a page.</p>
       </div>
     </div>
   </section>
