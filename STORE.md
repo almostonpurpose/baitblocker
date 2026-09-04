@@ -77,7 +77,13 @@ traffic.
 > Detects top-level and subframe navigation so the toolbar count resets on a new page and
 > findings for frames that no longer exist are retired instead of being reported.
 
-**Remote code** — None. All scripts, styles, rules, and fonts ship inside the package.
+**Remote code** — select "No, I am not using remote code." If a text box appears:
+> No remote code. All scripts, styles, detection rules and fonts ship inside the package.
+> The extension loads nothing at runtime and makes no network requests.
+
+**Publisher contact email** — set on the Settings page, not the listing, and it must be
+verified by clicking the link Google sends. It is displayed publicly on the listing, so it
+should match the address in the privacy policy.
 
 ## Data usage disclosure
 
