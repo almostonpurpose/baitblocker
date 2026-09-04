@@ -232,6 +232,15 @@ section { padding: clamp(2rem, 4.5vw, 3.2rem) 0; }
   font: 600 1.16rem/1.3 var(--text);
 }
 .prose h3 { margin: 1.7rem 0 .5rem; font: 600 1rem/1.35 var(--text); }
+.prose .stamp {
+  margin: 0 0 2rem;
+  padding-bottom: 1.3rem;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink-3);
+  font: 500 10px/1 var(--mono);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
 .prose strong { color: var(--ink); }
 .prose p, .prose li { color: var(--ink-2); }
 .prose ul { padding-left: 1.15rem; }
