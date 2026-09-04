@@ -103,7 +103,7 @@ required.
 
 | Asset | Size | Where |
 | --- | --- | --- |
-| Store icon | 128×128 | `icons/baitblocker-128.png` |
+| Store icon | 128×128 | `store/store-icon-monogram.png` (the shipped mark, repadded to the 96×96-inside-128×128 the store asks for) |
 | Screenshots ×3 | 1280×800 | `store/screenshots/` |
 | Small promo tile | 440×280 | `store/promo-440x280.png` |
 
