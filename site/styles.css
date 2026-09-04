@@ -1,0 +1,264 @@
+/* BaitBlocker site — same system as the extension: paper ground, Righteous display,
+   Besley text, Chivo Mono machine labels, and one red that only ever means "caught". */
+
+@font-face { font-family: "Righteous"; src: url("fonts/righteous-400.ttf") format("truetype"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Besley"; src: url("fonts/besley-400.ttf") format("truetype"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Besley"; src: url("fonts/besley-600.ttf") format("truetype"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Besley"; src: url("fonts/besley-italic-400.ttf") format("truetype"); font-style: italic; font-weight: 400; font-display: swap; }
+@font-face { font-family: "Chivo Mono"; src: url("fonts/chivo-mono-400.ttf") format("truetype"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Chivo Mono"; src: url("fonts/chivo-mono-500.ttf") format("truetype"); font-weight: 500; font-display: swap; }
+
+:root {
+  --ground: #f5f4ef;
+  --ground-2: #e9e6dc;
+  --ink: #1d1a22;
+  --ink-2: #4a4453;
+  --ink-3: #655f72;
+  --line: #cfcabc;
+  --lead: #dd3c3c;
+  --lead-text: #b82929;
+  --companion: #2f7d76;
+  --companion-text: #276c66;
+  --display: "Righteous", "Arial Rounded MT Bold", sans-serif;
+  --text: "Besley", Georgia, serif;
+  --mono: "Chivo Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+  --gutter: clamp(1.25rem, 5vw, 3.5rem);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font: 400 17px/1.62 var(--text);
+  -webkit-font-smoothing: antialiased;
+  /* Faint ruled paper, so the ground reads as something written on. */
+  background-image: repeating-linear-gradient(
+    to bottom, transparent 0 47px, rgb(207 202 188 / .28) 47px 48px);
+}
+
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 var(--gutter); }
+
+a { color: var(--lead-text); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--companion-text); outline-offset: 3px; }
+
+.machine {
+  color: var(--ink-3);
+  font: 500 10px/1 var(--mono);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+/* ---- masthead ---- */
+
+.mast {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.15rem 0 .8rem;
+  border-bottom: 1px solid var(--line);
+}
+.wordmark {
+  color: var(--ink);
+  font: 400 24px/.88 var(--display);
+  letter-spacing: .012em;
+  text-decoration: none;
+}
+.wordmark em { color: var(--lead-text); font-style: normal; }
+.mast nav { display: flex; gap: 1.4rem; }
+.mast nav a { color: var(--ink-3); font: 500 10px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; text-decoration: none; }
+.mast nav a:hover { color: var(--ink); }
+
+/* ---- hero ---- */
+
+.hero { padding: clamp(3rem, 8vw, 6rem) 0 clamp(2.5rem, 6vw, 4.5rem); }
+
+h1 {
+  margin: 0 0 1.6rem;
+  font: 400 clamp(2.6rem, 7.2vw, 5.2rem)/.92 var(--display);
+  letter-spacing: .004em;
+}
+h1 em { color: var(--lead-text); font-style: normal; }
+
+.stand {
+  max-width: 46ch;
+  margin: 0 0 2.2rem;
+  color: var(--ink-2);
+  font-size: clamp(1.05rem, 2vw, 1.25rem);
+}
+
+.cta { display: flex; align-items: center; flex-wrap: wrap; gap: 1.1rem; }
+
+.install {
+  display: inline-flex;
+  align-items: center;
+  gap: .7rem;
+  padding: .95rem 1.6rem;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--ground);
+  font: 500 11px/1 var(--mono);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: transform .16s ease, background .16s ease;
+}
+.install:hover { transform: translateY(-1px); background: var(--lead-text); border-color: var(--lead-text); }
+.install[aria-disabled="true"] {
+  background: transparent;
+  border-color: var(--line);
+  color: var(--ink-3);
+  cursor: default;
+  pointer-events: none;
+}
+.cta small { color: var(--ink-3); font: 500 10px/1.5 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+
+/* ---- the demonstration ---- */
+
+.specimen {
+  position: relative;
+  margin: 0 0 clamp(3rem, 7vw, 5rem);
+  padding: clamp(1.6rem, 4vw, 2.6rem) clamp(1.4rem, 4vw, 2.6rem) clamp(1.6rem, 4vw, 2.4rem);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fffdf8;
+  box-shadow: 0 22px 48px rgb(29 26 34 / .07);
+}
+.specimen > .machine { display: block; margin-bottom: 1.1rem; }
+.specimen p {
+  max-width: 34ch;
+  margin: 0;
+  font-size: clamp(1.3rem, 3.4vw, 1.95rem);
+  line-height: 1.5;
+}
+.specimen p + p { margin-top: .9rem; }
+
+/* Marks match the extension: 1.5px underline, style per category, 16% wash. */
+.mark {
+  position: relative;
+  text-decoration-line: underline;
+  text-decoration-color: var(--lead);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 2px;
+  text-decoration-skip-ink: none;
+  background-image: linear-gradient(transparent 74%, rgb(221 60 60 / .16) 74%);
+  background-repeat: no-repeat;
+  box-decoration-break: clone;
+}
+.mark[data-c="influence"] { text-decoration-style: dotted; }
+.mark[data-c="engagement"] { text-decoration-style: dashed; }
+.mark[data-c="framing"] { text-decoration-style: wavy; }
+
+/* Each mark arrives in turn, the way the extension reveals them. */
+.mark { animation: settle .5s ease-out both; animation-delay: calc(var(--i) * .42s + .5s); }
+@keyframes settle {
+  from { text-decoration-color: transparent; background-size: 0 100%; }
+  60%  { text-decoration-color: var(--lead); background-size: 100% 100%; filter: drop-shadow(0 0 7px rgb(221 60 60 / .55)); }
+  to   { text-decoration-color: var(--lead); background-size: 100% 100%; filter: none; }
+}
+
+.readout {
+  display: flex;
+  align-items: baseline;
+  gap: .55rem;
+  margin-top: clamp(1.4rem, 3vw, 2rem);
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--line);
+}
+.readout b { color: var(--lead-text); font: 400 2.4rem/.8 var(--display); }
+.readout span { color: var(--ink-2); font: 400 1rem/1 var(--display); }
+.readout .machine { margin-left: auto; align-self: center; }
+
+/* ---- sections ---- */
+
+section { padding: clamp(2rem, 4.5vw, 3.2rem) 0; }
+
+.single p { max-width: 58ch; color: var(--ink-2); font-size: 1rem; }
+.single p:first-child { margin-top: 0; }
+
+.head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-bottom: .85rem;
+  margin-bottom: clamp(1.6rem, 3vw, 2.2rem);
+  border-bottom: 1px solid var(--line);
+}
+.head h2 { margin: 0; color: var(--ink-3); font: 500 10px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; }
+.head h2 span { margin-right: 1.1rem; color: var(--lead-text); }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+.card { padding: 1.5rem 1.4rem 1.6rem; background: var(--ground); }
+.card b {
+  display: inline-block;
+  margin-bottom: .55rem;
+  font: 600 1.22rem/1.2 var(--text);
+  text-decoration: underline 1.5px var(--lead);
+  text-underline-offset: 4px;
+  text-decoration-skip-ink: none;
+}
+.card[data-c="influence"] b { text-decoration-style: dotted; }
+.card[data-c="engagement"] b { text-decoration-style: dashed; }
+.card[data-c="framing"] b { text-decoration-style: wavy; }
+.card p { margin: 0 0 .8rem; color: var(--ink-2); font-size: .96rem; line-height: 1.55; }
+.card small { display: block; color: var(--ink-3); font: 400 .78rem/1.5 var(--text); font-style: italic; }
+
+.two { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(260px, .75fr); gap: clamp(2rem, 5vw, 4rem); }
+.two p { max-width: 58ch; color: var(--ink-2); font-size: 1rem; }
+.two p:first-child { margin-top: 0; }
+.two em { color: var(--ink); }
+
+.panel { align-self: start; padding: 1.5rem; border-radius: 10px; background: var(--ground-2); }
+.panel .machine { display: block; margin-bottom: 1rem; }
+.panel ul { margin: 0; padding: 0; list-style: none; }
+.panel li { padding: .7rem 0; border-top: 1px solid var(--line); color: var(--ink-2); font-size: .9rem; line-height: 1.5; }
+.panel li:first-child { border-top: 0; padding-top: 0; }
+.panel li b { display: block; color: var(--ink); font-size: .95rem; }
+
+/* ---- long-form (privacy) ---- */
+
+.prose { max-width: 62ch; padding: clamp(2.5rem, 6vw, 4rem) 0 1rem; }
+.prose h1 { max-width: none; margin-bottom: .5rem; font-size: clamp(2rem, 5vw, 3rem); }
+.prose h2 { margin: 2.4rem 0 .6rem; font: 600 1.16rem/1.3 var(--text); }
+.prose p, .prose li { color: var(--ink-2); }
+.prose ul { padding-left: 1.15rem; }
+.prose li { margin-bottom: .55rem; }
+.prose .lede { color: var(--ink); font-size: 1.15rem; }
+.prose table { width: 100%; margin: 1.2rem 0; border-collapse: collapse; font-size: .95rem; }
+.prose th, .prose td { padding: .65rem .9rem .65rem 0; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.prose th { color: var(--ink); font: 500 .74rem/1.4 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+.prose td { color: var(--ink-2); }
+.prose code { font: 400 .88em/1 var(--mono); }
+
+/* ---- footer ---- */
+
+footer {
+  margin-top: clamp(2rem, 5vw, 3.5rem);
+  padding: 1.4rem 0 3rem;
+  border-top: 1px solid var(--line);
+}
+.foot-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; }
+.foot-row nav { display: flex; gap: 1.4rem; }
+.foot-row a { color: var(--ink-3); font: 500 10px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; text-decoration: none; }
+.foot-row a:hover { color: var(--ink); }
+
+.strip { display: grid; grid-template-columns: repeat(48, 1fr); gap: 4px; height: 18px; align-items: end; margin-top: 1.6rem; }
+.strip i { display: block; width: 1px; height: 12px; background: var(--line); }
+.strip i:nth-child(7n) { width: 2px; height: 18px; background: var(--lead); }
+
+@media (max-width: 760px) {
+  .two { grid-template-columns: minmax(0, 1fr); }
+  .mast nav { gap: 1rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .mark { animation: none; }
+  .install { transition: none; }
+}

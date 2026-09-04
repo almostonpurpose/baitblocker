@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BaitBlocker — Privacy policy</title>
+<meta name="description" content="BaitBlocker collects, transmits and sells nothing. Everything happens inside your browser.">
+<link rel="icon" href="icon.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="wrap">
+  <header class="mast">
+    <a class="wordmark" href="/">BAIT<em>BLOCKER</em></a>
+    <nav>
+      <a href="/#what">What it marks</a>
+      <a href="/#why">Why</a>
+      <a href="privacy.html">Privacy</a>
+    </nav>
+  </header>
+
+  <article class="prose">
+    <h1>BaitBlocker privacy policy</h1>
+    <p class="machine" style="margin:0 0 2rem;padding-bottom:1.3rem;border-bottom:1px solid var(--line)">Last updated 4 September 2026</p>
+    
+    <p class="lede">BaitBlocker does not collect, transmit, or sell any data. Everything it
+    does happens inside your browser, on your own machine.</p>
+    
+    <h2>What BaitBlocker reads</h2>
+    <p>To mark manipulative patterns, the extension reads the visible text of pages you open.
+    That reading happens in the page itself. The text is never copied off your device, never
+    written to disk, and never sent anywhere. When you close a tab, the extension's record of
+    that page is gone.</p>
+    
+    <h2>What BaitBlocker stores</h2>
+    <p>Two things, both local to your browser:</p>
+    <ul>
+    <li><strong>Your settings</strong> — which categories are on, the sensitivity level, and
+    the list of sites you have paused. These live in Chrome's synced extension storage, so
+    they follow your Chrome profile if you have Chrome Sync switched on. They are readable
+    only by this extension.</li>
+    <li><strong>A running tally</strong> — how many pages have been scanned and how many
+    patterns were marked, split by category. Counters only. No URLs, no page text, no titles,
+    and no timestamps of individual visits. Removing and reinstalling the extension zeroes
+    it.</li>
+    </ul>
+    
+    <h2>What BaitBlocker never does</h2>
+    <ul>
+    <li>No analytics, telemetry, crash reporting, or advertising identifiers.</li>
+    <li>No network requests of any kind. The extension makes none; the fonts and rules are
+    bundled in the package.</li>
+    <li>No account, no sign-in, no personal information.</li>
+    <li>No selling or sharing of data with third parties, because no data leaves your
+    device.</li>
+    </ul>
+    
+    <h2>Permissions, and why each one exists</h2>
+    <table>
+    <tr><th>Permission</th><th>Why</th></tr>
+    <tr><td>Access to the sites you visit</td><td>The extension has to read page text to mark
+    patterns in it. The reading is local and nothing is retained.</td></tr>
+    <tr><td><code>storage</code></td><td>Saves your settings and the running tally described
+    above.</td></tr>
+    <tr><td><code>activeTab</code></td><td>Lets the toolbar popup talk to the page you are
+    looking at when you open it.</td></tr>
+    <tr><td><code>webNavigation</code></td><td>Detects page and frame navigation so counts
+    reset and stale marks are retired.</td></tr>
+    </table>
+    
+    <h2>Contact</h2>
+    <p>Questions or corrections: <a href="mailto:aswad.amr@gmail.com">aswad.amr@gmail.com</a></p>
+  </article>
+
+  <footer>
+    <div class="foot-row">
+      <span class="machine">BaitBlocker · Version 0.5</span>
+      <nav>
+        <a href="/">Home</a>
+        <a href="mailto:aswad.amr@gmail.com">Contact</a>
+      </nav>
+    </div>
+    <div class="strip" aria-hidden="true"></div>
+  </footer>
+</div>
+
+<script>
+  const strip = document.querySelector(".strip");
+  for (let i = 0; i < 48; i += 1) strip.append(document.createElement("i"));
+</script>
+</body>
+</html>

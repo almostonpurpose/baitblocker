@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BaitBlocker — see the persuasion patterns on any page</title>
+<meta name="description" content="A browser extension that marks the places where online writing is working on you rather than informing you. Runs locally, sends nothing anywhere.">
+<link rel="icon" href="icon.png">
+<link rel="stylesheet" href="styles.css">
+<meta property="og:title" content="BaitBlocker">
+<meta property="og:description" content="Marks the places where online writing is working on you rather than informing you.">
+<meta property="og:type" content="website">
+</head>
+<body>
+
+<div class="wrap">
+  <header class="mast">
+    <a class="wordmark" href="/">BAIT<em>BLOCKER</em></a>
+    <nav>
+      <a href="#what">What it marks</a>
+      <a href="#why">Why</a>
+      <a href="privacy.html">Privacy</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <h1>Control your<br><em>own mind.</em></h1>
+    <p class="stand">BaitBlocker reads the page you are already reading and marks the
+    moments where the writing is doing something to you rather than telling you
+    something. Hover a mark and it names the mechanism.</p>
+    <div class="cta">
+      <a class="install" id="install" href="#" aria-disabled="true">Coming to the Chrome Web Store</a>
+      <small>Free · No account · Nothing leaves your browser</small>
+    </div>
+  </div>
+
+  <div class="specimen">
+    <span class="machine">A page, as BaitBlocker sees it</span>
+    <p><span class="mark" data-c="pressure" style="--i:0">Only 3 left</span> at this
+    price. <span class="mark" data-c="influence" style="--i:1">Over 40,000 readers</span>
+    have already switched, and the offer
+    <span class="mark" data-c="pressure" style="--i:2">ends tonight</span>.</p>
+    <p><span class="mark" data-c="framing" style="--i:3">A shocking result</span> that
+    <span class="mark" data-c="engagement" style="--i:4">nobody is talking about</span>.</p>
+    <div class="readout">
+      <b>5</b><span>patterns</span>
+      <span class="machine">2 pressure · 1 influence · 1 bait · 1 framing</span>
+    </div>
+  </div>
+
+  <section id="what">
+    <div class="head">
+      <h2><span>01</span> What it marks</h2>
+      <span class="machine">Four categories, each switchable</span>
+    </div>
+    <div class="cards">
+      <div class="card" data-c="pressure">
+        <b>Pressure</b>
+        <p>Urgency, scarcity, price anchoring, preselected options, renewals mentioned in
+        small type.</p>
+        <small>Solid underline</small>
+      </div>
+      <div class="card" data-c="influence">
+        <b>Influence</b>
+        <p>Social proof, authority cues, identity appeals — the levers aimed at you
+        directly.</p>
+        <small>Dotted underline</small>
+      </div>
+      <div class="card" data-c="engagement">
+        <b>Engagement bait</b>
+        <p>Headlines built to withhold their own point, search bait, and copy that asks
+        for a reaction as part of the pitch.</p>
+        <small>Dashed underline</small>
+      </div>
+      <div class="card" data-c="framing">
+        <b>Framing</b>
+        <p>Charged words placed before the evidence, claims framed as settled, sources
+        left unnamed.</p>
+        <small>Wavy underline</small>
+      </div>
+    </div>
+  </section>
+
+  <section id="why">
+    <div class="head">
+      <h2><span>02</span> Why this exists</h2>
+      <span class="machine">The short version</span>
+    </div>
+    <div class="two">
+      <div>
+        <p>Persuasion in an interface is a documented craft. Thaler and Sunstein called
+        the arrangement around a decision its <em>choice architecture</em> — which option
+        is preselected, what sits in front of you, what is buried. Nothing is taken from
+        you and the outcome still moves.</p>
+
+        <p>Cialdini catalogued the levers aimed at you directly: scarcity, social proof,
+        authority, commitment, reciprocity, liking. Tversky and Kahneman showed that two
+        identical descriptions of a fact produce different decisions. Loewenstein's
+        information gap explains the withheld headline — open a gap and closing it starts
+        to feel urgent.</p>
+
+        <p>Harry Brignull named the applied version <em>dark patterns</em> in 2010. Mathur
+        and colleagues found them on roughly one in nine of 11,000 shopping sites, and the
+        FTC and the EU's Digital Services Act now write rules against parts of the
+        practice.</p>
+
+        <p>BaitBlocker matches phrasings these mechanisms tend to produce: a rough
+        instrument pointed at a real thing. It is rule-based, so it cannot establish
+        intent, judge ideology, or catch what only emerges across a multi-step checkout.</p>
+      </div>
+
+      <aside class="panel">
+        <span class="machine">Where each category comes from</span>
+        <ul>
+          <li><b>Pressure</b> Thaler &amp; Sunstein, <i>Nudge</i> (2008) · Cialdini on
+          scarcity · Brignull (2010) · Mathur et al. (2019)</li>
+          <li><b>Influence</b> Cialdini, <i>Influence</i> (1984)</li>
+          <li><b>Engagement bait</b> Loewenstein (1994) · Simon on attention (1971) ·
+          Fogg (2003)</li>
+          <li><b>Framing</b> Tversky &amp; Kahneman, <i>Science</i> (1981)</li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <section id="privacy-note">
+    <div class="head">
+      <h2><span>03</span> What it sends</h2>
+      <span class="machine">Nothing</span>
+    </div>
+    <div class="single">
+      <div>
+        <p>BaitBlocker makes no network requests. The rules, the fonts and the
+        explanations all ship inside the extension. Page text is read in the page and
+        never copied off your machine.</p>
+        <p>It stores two things locally: your own settings, and a count of how many pages
+        have been scanned and how many patterns were marked. No URLs, no page text, no
+        account. <a href="privacy.html">The full policy</a> runs to about a page.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="foot-row">
+      <span class="machine">BaitBlocker · Version 0.5</span>
+      <nav>
+        <a href="privacy.html">Privacy</a>
+        <a href="mailto:aswad.amr@gmail.com">Contact</a>
+      </nav>
+    </div>
+    <div class="strip" aria-hidden="true"></div>
+  </footer>
+</div>
+
+<script>
+  // One constant to set when the listing goes live.
+  const STORE_URL = "";
+
+  const install = document.getElementById("install");
+  if (STORE_URL) {
+    install.href = STORE_URL;
+    install.removeAttribute("aria-disabled");
+    install.textContent = "Add to Chrome — free";
+    install.rel = "noopener";
+  }
+
+  const strip = document.querySelector(".strip");
+  for (let i = 0; i < 48; i += 1) strip.append(document.createElement("i"));
+</script>
+</body>
+</html>
