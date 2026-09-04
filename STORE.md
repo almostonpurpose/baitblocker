@@ -42,8 +42,13 @@ allowlist and fails if anything unexpected got in.
 > on any site from the toolbar. Settings apply straight away, on pages you already have
 > open.
 >
-> The rules are plain pattern matching, run locally: no network requests, no account, no
-> analytics, nothing leaves your browser.
+> Persuasion in an interface is a documented craft. The categories map to work by Thaler
+> and Sunstein on choice architecture, Cialdini on the levers of influence, Tversky and
+> Kahneman on framing, and the dark patterns literature that followed. The settings page
+> cites the sources.
+>
+> The rules are plain pattern matching, run locally. No network requests, no account, no
+> analytics. Nothing leaves your browser.
 >
 > Honest about its limits: this is a rule-based tool. It cannot establish intent, judge
 > political ideology, or catch patterns that only emerge across a multi-step checkout or
